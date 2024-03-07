@@ -22,6 +22,31 @@ export async function getcoursesbyID(id) {
     .toArray();
 }
 
+//Add New user Data
+export async function addnewuser(newuserdata) {
+  return await client
+  .db("tunetutor")
+  .collection("userdetails")
+    .insertOne(newuserdata);
+}
+
+//Add New Counselling
+export async function addnewCounsell(newuserdata) {
+  return await client
+  .db("tunetutor")
+  .collection("Counseling")
+    .insertOne(newuserdata);
+}
+
+//to get all courses data
+export async function getallusers() {
+  return await client
+  .db("tunetutor")
+  .collection("userdetails")
+  .find({})
+  .toArray();
+}
+
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
 //   // var oid = new ObjectId(id);
@@ -31,13 +56,7 @@ export async function getcoursesbyID(id) {
 //     .deleteOne({ _id: new ObjectId(id)});
 // }
 
-// //Add New Student to Data
-// export async function addnewstudent(newstudentdata) {
-//   return await client
-//     .db("Mentor-student-assign")
-//     .collection("student")
-//     .insertOne(newstudentdata);
-// }
+
 
 // //Assign Mentor to courses
 // export async function assignmentor(_id, menterid) {

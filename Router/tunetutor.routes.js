@@ -2,16 +2,12 @@ import express from "express";
 import {
   getallcourses,
   getcoursesbyID,
-  Deletestudentid,
-  addnewstudent,
-  assignmentor,
-  editstudentid,
-  getassignedcourses
+  addnewCounsell,
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
 //to get all courses
-router.get("/", async function (req, res) {
+router.get("/courses", async function (req, res) {
   const data = await getallcourses();
   res.send(data);
 });
@@ -32,7 +28,7 @@ router.get("/:id", async function (req, res) {
       return res.status(400).json({
         success: false,
         data: {},
-        message: "No Student ID found!!!",
+        message: "No Course Details found!!!",
       });
     }
   } catch (error) {
@@ -44,6 +40,15 @@ router.get("/:id", async function (req, res) {
   }
 });
 
+//Create Counseling
+router.post("/addnewcounselling", async function(req,res){
+  const counsellingdata = req.body;
+  console.log(counsellingdata); 
+  const result = await addnewCounsell(counsellingdata);
+  res.send(result);
+  // console.log(result);
+});
+
 // //delete Student with id
 // router.delete("/delete/:_id", async function (req, res) {
 //   const { _id } = req.params;
@@ -52,13 +57,7 @@ router.get("/:id", async function (req, res) {
 //   res.send(response);
 // });
 
-// //Create New Student
-// router.post("/addstudent", async function(req,res){
-//   const newstudentdata = req.body;
-//   console.log(newstudentdata); 
-//   const result = await addnewstudent(newstudentdata);
-//   res.send(result);
-// });
+
 
 // //Edit Student id
 // router.put("/editstudent/:_id", async function(req,res){

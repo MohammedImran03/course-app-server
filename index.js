@@ -2,7 +2,7 @@ import express from "express";
 import {MongoClient} from "mongodb";
 import * as dotenv from "dotenv";
 import {tunetutorrouter} from './Router/tunetutor.routes.js';
-
+import {tunetutoruserrouter} from './Router/tunetutor.users.routes.js';
 import cors from 'cors';
 dotenv.config();
 const app = express();
@@ -31,5 +31,6 @@ app.get("/", function (req, res) {
   res.send("Hi 🙋‍♂️ Welcome to my Server🙏");
 });
 app.use("/tunetutor", tunetutorrouter);
+app.use("/tunetutor/users",tunetutoruserrouter);
 //Port Connection
 app.listen(PORT, () => console.log(`Server Started at ${PORT} 🎉`));
