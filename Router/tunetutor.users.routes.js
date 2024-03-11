@@ -31,8 +31,11 @@ router.post("/addnewuser", async (req, res, next) => {
       name: name,
       email: email,
       password: password,
+      ph_no: ph_no,
+      address:address,
     };
         return  res.status(201).json({
+          data:user,
               success: true,
               message: `Hello ${user.name} Your New account towards Tune Tutor Created Successfully`,
             });
@@ -67,13 +70,13 @@ router.post("/user-Sign-In",async (req, res, next) => {
       if (!user) {
         return res.status(400).json({
           success: false,
-          message: "User doesn't exists !",
+          message: "User does not exist!",
         });
       }
       if (user.password!=password) {
         return  res.status(400).json({
           success: false,
-          message: "Password Doesnot Match!, Please Provide Valid Information !",
+          message: "Password Does not Match!, Please Provide Valid Information !",
         });
       }
       return  res.status(200).json({
