@@ -25,9 +25,10 @@ router.post("/addnewuser", async (req, res, next) => {
   .db("tunetutor")
   .collection("userdetails").insertOne({name,email,password,ph_no,address});
   // sendToken(userEmail, 201, res);     
-  // console.log(newuser.acknowledged);
+  // console.log(newuser.insertedId.toString());
   if(newuser.acknowledged){
     const user = {
+      _id:newuser.insertedId.toString(),
       name: name,
       email: email,
       password: password,
