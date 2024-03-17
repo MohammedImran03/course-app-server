@@ -3,6 +3,7 @@ import {MongoClient} from "mongodb";
 import * as dotenv from "dotenv";
 import {tunetutorrouter} from './Router/tunetutor.routes.js';
 import {tunetutoruserrouter} from './Router/tunetutor.users.routes.js';
+import {Paymentrouter} from './Router/PaymentRouter.js';
 import cors from 'cors';
 dotenv.config();
 const app = express();
@@ -30,7 +31,9 @@ app.use(cors());
 app.get("/", function (req, res) {
   res.send("Hi 🙋‍♂️ Welcome to my Server🙏");
 });
+
 app.use("/tunetutor", tunetutorrouter);
 app.use("/tunetutor/users",tunetutoruserrouter);
+app.use("/payments", Paymentrouter);
 //Port Connection
 app.listen(PORT, () => console.log(`Server Started at ${PORT} 🎉`));
