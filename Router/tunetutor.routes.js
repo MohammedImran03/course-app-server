@@ -89,6 +89,7 @@ router.get("/user-courses/:id", async (req, res) => {
       return  res.status(200).json({
         success: false,
         message: 'You have not Enrolled any Courses',
+        result,
       });
     }else{
       return  res.status(200).json({
