@@ -3,7 +3,8 @@ import {
   getallcourses,
   getcoursesbyID,
   addnewCounsell,
-  Createnewcourse
+  Createnewcourse,
+  getCourses
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -78,6 +79,29 @@ product_id,
 });
 
 
+// Get all Notes for a specific user
+router.get("/user-courses/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await getCourses(id);
+    console.log(result);
+    if(result.length==0){
+      return  res.status(200).json({
+        success: false,
+        message: 'You have not Enrolled any Courses',
+      });
+    }else{
+      return  res.status(200).json({
+        success: true,
+        result
+      });
+    }
+  } catch (error) {
+    // res.json({ status: "error", message: error.message });
+    res.json({ status: 500 , success:false , message: error.message });
+  }
+});
+
 //Create Counseling
 router.post("/addnewcounselling", async function(req,res){
   const counsellingdata = req.body;
@@ -87,32 +111,7 @@ router.post("/addnewcounselling", async function(req,res){
   // console.log(result);
 });
 
-// //delete Student with id
-// router.delete("/delete/:_id", async function (req, res) {
-//   const { _id } = req.params;
-//   console.log(_id);
-//   const response = await Deletestudentid(_id);
-//   res.send(response);
-// });
 
-
-
-// //Edit Student id
-// router.put("/editstudent/:_id", async function(req,res){
-//   const {_id} = req.params;
-//   const data = req.body;
-//   const result = await editstudentid(_id, data);
-//   res.send(result);
-// });
-
-
-// //update Student with Mentor id
-// router.put("/assignmentor/:_id", async function(req,res){
-//   const {_id} = req.params;
-//   const menterid = req.body.menterid;
-//   const result = await assignmentor(_id, menterid);
-//   res.send(result);
-// });
 
 
 

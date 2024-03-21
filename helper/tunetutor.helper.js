@@ -57,6 +57,12 @@ export async function Createnewcourse(newcoursedata) {
 }
 
 
+export async function getCourses(id){
+  return await client
+  .db("tunetutor")
+ .collection("course_enrollment").find({user_id:id})
+ .toArray();
+};
 
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
