@@ -23,19 +23,19 @@ export async function getcoursesbyID(id) {
 }
 
 //Add New user Data
-export async function addnewuser(newuserdata) {
+export async function addnewuser(newcoursedata) {
   return await client
   .db("tunetutor")
   .collection("userdetails")
-    .insertOne(newuserdata);
+    .insertOne(newcoursedata);
 }
 
 //Add New Counselling
-export async function addnewCounsell(newuserdata) {
+export async function addnewCounsell(newcoursedata) {
   return await client
   .db("tunetutor")
   .collection("Counseling")
-    .insertOne(newuserdata);
+    .insertOne(newcoursedata);
 }
 
 //to get all courses data
@@ -46,6 +46,17 @@ export async function getallusers() {
   .find({})
   .toArray();
 }
+
+
+//Add New CourseEnrollment
+export async function Createnewcourse(newcoursedata) {
+  return await client
+  .db("tunetutor")
+  .collection("course_enrollment")
+    .insertOne(newcoursedata);
+}
+
+
 
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {

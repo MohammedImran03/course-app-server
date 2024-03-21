@@ -3,6 +3,7 @@ import {
   getallcourses,
   getcoursesbyID,
   addnewCounsell,
+  Createnewcourse
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -39,6 +40,43 @@ router.get("/:id", async function (req, res) {
     });
   }
 });
+
+
+
+
+router.post("/new-course",async (req, res) => {
+  try {
+      const { 
+user_id,
+payment_id,
+amount,
+product_id,
+} = req.body;
+    const newcourse={
+      user_id,
+      payment_id,
+      amount,
+      product_id,
+    };
+      const result = await Createnewcourse(newcourse);
+      console.log(result);
+      if (result.acknowledged) {
+          res.status(200).json({
+              success: true,
+              message: "New Course added Successfully.",
+            });
+      }else{
+        return res.status(400).json({
+          success: false,
+        message: "Unable to Unlock new course, try later.",
+      });
+      }
+      // return next(new ErrorHandler("Unable to create new notes try later.", 400));
+    }catch (error) {
+      res.status(500).json({ success:false,message: error.message });
+    }
+});
+
 
 //Create Counseling
 router.post("/addnewcounselling", async function(req,res){
