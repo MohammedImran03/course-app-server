@@ -9,16 +9,9 @@ router.post('/intents', async (req, res) => {
       const paymentIntent = await stripeInstance.paymentIntents.create({
         amount: req.body.amount *100, 
         currency: 'inr',
-        payment_method_types: [
-          'bancontact',
-          'card',
-          'eps',
-          'giropay',
-          'ideal',
-          'p24',
-          'sepa_debit',
-          'sofort',
-        ],
+        automatic_payment_methods: {
+          enabled: true,
+        },
       });
 
       res.json({ paymentIntent: paymentIntent.client_secret });
