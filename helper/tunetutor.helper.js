@@ -72,6 +72,16 @@ export async function CreatenewCoursedetails(newnote){
     .insertOne(newnote);
 }
 
+//to get all courses data
+export async function getallcousellings() {
+  return await client
+  .db("tunetutor")
+  .collection("Counseling")
+    .find({})
+    .toArray();
+}
+
+
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
 //   // var oid = new ObjectId(id);
