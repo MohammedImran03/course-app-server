@@ -64,6 +64,14 @@ export async function getCourses(id){
  .toArray();
 };
 
+
+export async function CreatenewCoursedetails(newnote){
+  return await client
+  .db("tunetutor")
+  .collection("coursedetails")
+    .insertOne(newnote);
+}
+
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
 //   // var oid = new ObjectId(id);

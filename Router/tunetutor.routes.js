@@ -4,6 +4,7 @@ import {
   getcoursesbyID,
   addnewCounsell,
   Createnewcourse,
+  CreatenewCoursedetails,
   getCourses
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
@@ -110,6 +111,51 @@ router.post("/addnewcounselling", async function(req,res){
   const result = await addnewCounsell(counsellingdata);
   res.send(result);
   // console.log(result);
+});
+
+
+router.post("/create-newcoursedetails",async (req, res) => {
+  try {
+      const { 
+        instrument,
+        c_title,
+        t_name,
+        last_update,
+        c_fee,
+        membership, 
+        image_link,
+        c_outline,
+        objective,
+        eligibility,
+  } = req.body;
+    const newnote={
+      instrument,
+        c_title,
+        t_name,
+        last_update,
+        c_fee,
+        membership, 
+        image_link,
+        c_outline,
+        objective,
+        eligibility};
+      const result = await CreatenewCoursedetails(newnote);
+      console.log(result);
+      if (result.acknowledged) {
+          res.status(200).json({
+              success: true,
+              message: "New Course added Successfully.",
+            });
+      }else{
+        return res.status(400).json({
+          success: false,
+        message: "Unable to add new course, try again later.",
+      });
+      }
+      // return next(new ErrorHandler("Unable to create new notes try later.", 400));
+    }catch (error) {
+      res.status(500).json({ success:false,message: error.message });
+    }
 });
 
 
