@@ -9,6 +9,7 @@ import {
   getallcousellings,
   getallcourseenrollments,
   updateUserConsellReply,
+  DeleteCoursewithId,
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -225,8 +226,63 @@ router.put("/update-Counsell/:_id",async (req, res) => {
       message: "Unable to update Counselling Updates please try again later",
     });
   } catch (error) {
-    res.json({ status: "error", message: error.message });
+    res.json({success: false, status: "error", message: error.message });
   }
 });
+
+// update notes
+router.put("/update-Counsell/:_id",async (req, res) => {
+
+  try {
+    const { _id } = req.params;
+    console.log(_id)
+    const result = await updateUserConsellReply(
+      _id);
+    console.log(result);
+    if (result.acknowledged) {
+      return res.json({
+        status: "success",
+        success: true,
+        message: "Counselling Updates Success",
+      });
+    }
+    res.json({
+      status: "error",
+      success: false,
+      message: "Unable to update Counselling Updates please try again later",
+    });
+  } catch (error) {
+    res.json({success: false, status: "error", message: error.message });
+  }
+});
+
+
+
+//delete Student with id
+router.delete("/delete-course/:_id", async function (req, res) {
+
+  try {
+    const { _id } = req.params;
+    console.log(_id)
+    const result = await DeleteCoursewithId(
+      _id);
+    console.log(result);
+    if (result.acknowledged) {
+      return res.json({
+        success: true,
+        status: "success",
+        message: "Course Deleted Successfully",
+      });
+    }
+    res.json({
+      success: false,
+      status: "error",
+      message: "Unable to update Courses please try again later",
+    });
+  } catch (error) {
+    res.json({ success: false, status: "error", message: error.message });
+  }
+});
+
 
 export const tunetutorrouter = router;

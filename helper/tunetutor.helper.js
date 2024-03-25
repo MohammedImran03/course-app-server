@@ -101,6 +101,13 @@ export async function updateUserConsellReply(_id) {
 }
 
 
+
+export async function DeleteCoursewithId(_id) {
+  return await client
+  .db("tunetutor")
+  .collection("coursedetails")
+  .deleteOne({ _id: new ObjectId(_id)});
+}
 //     .db("Mentor-student-assign")
 //     .collection("student")
 //     .updateOne(
