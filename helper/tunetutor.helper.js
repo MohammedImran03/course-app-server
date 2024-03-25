@@ -90,6 +90,23 @@ export async function getallcourseenrollments() {
     .find({})
     .toArray();
 }
+
+
+
+export async function updateUserConsellReply(_id) {
+  return await client
+    .db("tunetutor")
+    .collection("Counseling")
+    .updateOne({ _id: new ObjectId(_id) }, { $set: { status: 2 } }); 
+}
+
+
+//     .db("Mentor-student-assign")
+//     .collection("student")
+//     .updateOne(
+//       { _id: oid },
+//       { $set: { mentorassign: true , menterid:getmentordetails }  }
+//     );3
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
 //   // var oid = new ObjectId(id);

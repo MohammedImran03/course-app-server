@@ -8,6 +8,7 @@ import {
   getCourses,
   getallcousellings,
   getallcourseenrollments,
+  updateUserConsellReply,
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -189,6 +190,32 @@ router.get("/courses/Courseenrollments", async (req, res)=>{
     res.json({ status: 500 , success:false , message: error.message });
   }
   // res.send(data);
+});
+
+
+// update notes
+router.put("/update-Counsell/:_id",async (req, res) => {
+
+  try {
+
+    const { _id } = req.params;
+    console.log(_id)
+    const result = await updateUserConsellReply(
+      _id);
+    console.log(result);
+    if (result.acknowledged) {
+      return res.json({
+        status: "success",
+        message: "Counselling Updates Success",
+      });
+    }
+    res.json({
+      status: "error",
+      message: "Unable to update Counselling Updates please try again later",
+    });
+  } catch (error) {
+    res.json({ status: "error", message: error.message });
+  }
 });
 
 export const tunetutorrouter = router;
