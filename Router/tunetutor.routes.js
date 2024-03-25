@@ -115,10 +115,12 @@ router.post("/addnewcounselling", async function(req,res){
   if (result.acknowledged) {
     return res.json({
       status: "success",
+      success: true,
       message: "New Counselling added",
     });
   }
   res.json({
+    success: false,
     status: "error",
     message: "Unable to update Counselling please try again later",
   });
