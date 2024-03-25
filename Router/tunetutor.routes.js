@@ -6,7 +6,8 @@ import {
   Createnewcourse,
   CreatenewCoursedetails,
   getCourses,
-  getallcousellings
+  getallcousellings,
+  getallcourseenrollments,
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -175,5 +176,19 @@ router.get("/counselling/allcousellings", async (req, res)=>{
   // res.send(data);
 });
 
+router.get("/courses/Courseenrollments", async (req, res)=>{
+  console.log('counsellingdetails');
+  try {
+    const result = await getallcourseenrollments();
+    return  res.status(200).json({
+      success: true,
+      result
+    });
+  } catch (error) {
+    // res.json({ status: "error", message: error.message });
+    res.json({ status: 500 , success:false , message: error.message });
+  }
+  // res.send(data);
+});
 
 export const tunetutorrouter = router;

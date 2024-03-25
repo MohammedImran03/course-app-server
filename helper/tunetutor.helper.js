@@ -82,6 +82,14 @@ export async function getallcousellings() {
 }
 
 
+
+export async function getallcourseenrollments() {
+  return await client
+  .db("tunetutor")
+  .collection("course_enrollment")
+    .find({})
+    .toArray();
+}
 // //Delete Student details With Id
 // export async function Deletestudentid(id) {
 //   // var oid = new ObjectId(id);
