@@ -10,6 +10,8 @@ import {
   getallcourseenrollments,
   updateUserConsellReply,
   DeleteCoursewithId,
+  updateCourseDetailswithID,
+  updateCourseDetailsvideoswithID
 } from "../helper/tunetutor.helper.js";
 const router = express.Router();
 
@@ -278,6 +280,91 @@ router.delete("/delete-course/:_id", async function (req, res) {
       success: false,
       status: "error",
       message: "Unable to update Courses please try again later",
+    });
+  } catch (error) {
+    res.json({ success: false, status: "error", message: error.message });
+  }
+});
+
+
+
+router.put("/update-Coursedetails/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    // Extract fields from the request body
+    const {
+      instrument,
+      c_title,
+      t_name,
+      last_update,
+      c_fee,
+      membership, 
+      image_link,
+      c_outline,
+      objective,
+      eligibility,
+      videoobjectlinks,
+    } = req.body;
+
+    
+    const updates = {};
+
+   
+    if (instrument) updates.instrument = instrument;
+    if (c_title) updates.c_title = c_title;
+    if (t_name) updates.t_name = t_name;
+    if (last_update) updates.last_update = last_update;
+    if (c_fee) updates.c_fee = c_fee;
+    if (membership) updates.membership = membership;
+    if (image_link) updates.image_link = image_link;
+    if (c_outline) updates.c_outline = c_outline;
+    if (objective) updates.objective = objective;
+    if (eligibility) updates.eligibility = eligibility;
+    if (videoobjectlinks) updates.videoobjectlinks = videoobjectlinks;
+    const result = await updateCourseDetailswithID(_id, updates);
+    console.log(result);
+    
+    if (result.acknowledged) {
+      return res.json({
+        status: "success",
+        success: true,
+        message: "Course Details Updated Successfully",
+      });
+    }
+    res.json({
+      status: "error",
+      success: false,
+      message: "Unable to update Course Details. Please try again later",
+    });
+  } catch (error) {
+    res.json({ success: false, status: "error", message: error.message });
+  }
+});
+
+router.put("/uploadvideoobjectlinks-Coursedetails/:_id", async (req, res) => {
+  try {
+    const { _id } = req.params;
+    // Extract fields from the request body
+    const {
+      videoobjectlinks,
+    } = req.body;
+    const updates = {};
+    if (videoobjectlinks) updates.videoobjectlinks = videoobjectlinks;
+    
+    const result = await updateCourseDetailsvideoswithID(_id, updates);
+    console.log(result);
+    
+    if (result.acknowledged) {
+      return res.json({
+        status: "success",
+        success: true,
+        message: "Course Details Updated Successfully",
+      });
+    }
+    res.json({
+      status: "error",
+      success: false,
+      message: "Unable to update Course Details. Please try again later",
     });
   } catch (error) {
     res.json({ success: false, status: "error", message: error.message });

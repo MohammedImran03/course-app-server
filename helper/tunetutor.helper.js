@@ -108,6 +108,23 @@ export async function DeleteCoursewithId(_id) {
   .collection("coursedetails")
   .deleteOne({ _id: new ObjectId(_id)});
 }
+
+// updateCourseDetailswithID
+
+export async function updateCourseDetailswithID(_id, updates) {
+  return await client
+  .db("tunetutor")
+  .collection("coursedetails")
+    .updateOne({ _id: new ObjectId(_id) }, { $set: updates }); 
+}
+
+export async function updateCourseDetailsvideoswithID(_id, updates) {
+  return await client
+  .db("tunetutor")
+  .collection("coursedetails")
+    .updateOne({ _id: new ObjectId(_id) }, { $set: updates }); 
+}
+
 //     .db("Mentor-student-assign")
 //     .collection("student")
 //     .updateOne(
