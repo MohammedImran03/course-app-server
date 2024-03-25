@@ -112,7 +112,16 @@ router.post("/addnewcounselling", async function(req,res){
   const counsellingdata = req.body;
   console.log(counsellingdata); 
   const result = await addnewCounsell(counsellingdata);
-  res.send(result);
+  if (result.acknowledged) {
+    return res.json({
+      status: "success",
+      message: "New Counselling added",
+    });
+  }
+  res.json({
+    status: "error",
+    message: "Unable to update Counselling please try again later",
+  });
   // console.log(result);
 });
 
