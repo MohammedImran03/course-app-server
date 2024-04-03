@@ -114,7 +114,7 @@ router.post("/user-Sign-In",async (req, res, next) => {
 // get  user Details
 router.get("/getuser", async (req, res) => {
   const { userid, courseid } = req.body;
-  console.log(req.body);
+  console.log(userid,courseid);
   try {
     // console.log(courseid);
     const user = await client
