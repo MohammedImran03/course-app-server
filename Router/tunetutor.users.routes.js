@@ -113,9 +113,9 @@ router.post("/user-Sign-In",async (req, res, next) => {
 
 // get  user Details
 router.get("/getuser", async (req, res) => {
+  const { userid, courseid } = req.body;
   try {
-    const { userid, courseid } = req.body;
-    console.log(courseid);
+    // console.log(courseid);
     const user = await client
       .db("tunetutor")
       .collection("userdetails")
