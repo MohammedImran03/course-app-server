@@ -4,6 +4,8 @@ import {
     addnewuser,
   getallusers,
 } from "../helper/tunetutor.helper.js";
+import { ObjectId } from "mongodb";
+
 const router = express.Router();
 
 
@@ -107,6 +109,43 @@ router.post("/user-Sign-In",async (req, res, next) => {
     const data = await getallusers();
     res.send(data);
   });
+
+
+// get  user Details
+router.get("/getuser", async (req, res) => {
+  try {
+    const userid = req.body.userid; 
+    const courseid = req.body.courseid;
+    console.log(courseid);
+    const user = await client
+      .db("tunetutor")
+      .collection("userdetails")
+      .findOne({ _id: new ObjectId(userid) }); 
+    const course = await client
+      .db("tunetutor")
+      .collection("coursedetails")
+      .findOne({ _id: new ObjectId(courseid) });
+    console.log(user);
+    console.log(course);
+    if (!user || !course) {
+      return res.status(400).json({
+        success: false,
+        message: "Datas Not Found!",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      user,
+      course,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 
   
 export const tunetutoruserrouter = router;
