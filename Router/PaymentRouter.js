@@ -15,6 +15,7 @@ router.post('/intents', async (req, res) => {
         //   issuing_card: 'ic_1ITi6XKYfU8ZP6raDAXem8ql',
         // },
         //     {apiVersion : '2023-10-16',});
+        // automatic_payment_methods
         const total=parseInt(req.body.amount * 100);
         const paymentIntent = await stripeInstance.paymentIntents.create({
             amount: total, 
@@ -25,7 +26,9 @@ router.post('/intents', async (req, res) => {
             },
         });
         console.log(paymentIntent);
-        res.json({ paymentIntent: paymentIntent.client_secret,
+        res.json({ 
+            paymentIntentdata:paymentIntent,
+            paymentIntent: paymentIntent.client_secret,
             // ephemeralKey_Secret:ephemeralKey.secret,
             customer:customer.id,
             // publishableKey:'sk_test_51OuEqlSBQwTu3SdvMiUxrJ1x5eC5nDESdMA7SAwehkFkaabJ8hEavopdROukpefBZet0pWZb5h9vPJkWKPZQ1VAU00QPr2pRwb'        
