@@ -5,13 +5,13 @@ const stripeInstance = stripe('sk_test_51OuEqlSBQwTu3SdvMiUxrJ1x5eC5nDESdMA7SAwe
 
 router.post('/intents', async (req, res) => {
     try {
-
+console.log('paymentmethod');
       const paymentIntent = await stripeInstance.paymentIntents.create({
         amount: req.body.amount *100, 
         currency: 'inr',
-        automatic_payment_methods: {enabled: true}
+        payment_method_types: [ 'card' ],
       });
-
+      console.log(paymentIntent);
       res.json({ paymentIntent: paymentIntent.client_secret });
     } catch (e) {
       res.status(400).json({
