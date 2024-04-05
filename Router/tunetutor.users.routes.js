@@ -5,7 +5,8 @@ import {
   getallusers,
 } from "../helper/tunetutor.helper.js";
 import { ObjectId } from "mongodb";
-
+import Razorpay from "razorpay";
+import crypto from "crypto";
 const router = express.Router();
 
 
@@ -111,16 +112,15 @@ router.post("/user-Sign-In",async (req, res, next) => {
   });
 
 
-// get  user Details
+// get user Details
 router.get("/getuser", async (req, res) => {
-  const { userid, courseid } = req.body;
-  console.log(userid,courseid);
+  const { userid, courseid } = req.query;
+  console.log(userid, courseid);
   try {
-    // console.log(courseid);
     const user = await client
       .db("tunetutor")
       .collection("userdetails")
-      .findOne({ _id: new ObjectId(userid) }); 
+      .findOne({ _id: new ObjectId(userid) });
     const course = await client
       .db("tunetutor")
       .collection("coursedetails")
@@ -130,7 +130,7 @@ router.get("/getuser", async (req, res) => {
     if (!user || !course) {
       return res.status(400).json({
         success: false,
-        message: "Datas Not Found!",
+        message: "Data Not Found!",
       });
     }
     res.status(200).json({
@@ -146,6 +146,68 @@ router.get("/getuser", async (req, res) => {
   }
 });
 
+router.post("/orders",async(req,res)=>{
+  try{
+const instance=new Razorpay({
+  key_id:'rzp_test_1ITMBhQFXyD7lk',
+  key_secret:'L6rlQIiMklTNXP7G4ZD1obFV',
+});
+const options={
+  amount:req.body.amount*100,
+  currency: "INR",
+  receipt:crypto.randomBytes(10).toString("hex")
+};
+instance.orders.create(options,(error,order)=>{
+if(error){
+  console.log(error);
+ res.status(500).json({
+    success: false,
+    message: "Some thing Went Wrong",
+  });
+}
+res.status(200).json({
+  success: true,
+  message: "Payment Success",
+  data:order,
+});
+});
+  }catch(error){
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
+
+router.post("/verify",async(req,res)=>{
+try{
+const {
+  razorpay_order_id,
+razorpay_payment_id,
+razorpay_signature
+}=req.body;
+const sign=razorpay_order_id+"|"+razorpay_payment_id;
+const expectedSign=crypto.createHmac("img",'L6rlQIiMklTNXP7G4ZD1obFV').update(sign.toString()).digest("hex");
+if(razorpay_signature==expectedSign){
+  return res.status(200).json({
+    success: true,
+    message: "Payment Verified Successfully",
+  });
+}else{
+  return res.status(400).json({
+    success: false,
+    message: "Invalid Signature Sent!",
+  });
+}
+}catch(error){
+  console.log(error);
+  return res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
+});
 
   
 export const tunetutoruserrouter = router;
